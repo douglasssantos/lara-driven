@@ -252,9 +252,10 @@ class createDomainDrivenDesignStructure extends Command
             (new FactoryAction($this->attributes['domain'], $this->attributes['path']))->build();
     }
 
-    public function installService(): void
+    public function installService($showQuestion = true): void
     {
         if(config("ddd-config.create-service")) {
+
             $this->attributes['service']['installEmpty'] = $this->confirm(
                 "Do you want to create an empty {$this->__('Service')}?");
 
@@ -279,7 +280,7 @@ class createDomainDrivenDesignStructure extends Command
 
     }
 
-    public function installRepository(): void
+    public function installRepository($showQuestion = true): void
     {
 
         if($this->attributes['model']['install']) {
@@ -339,14 +340,21 @@ class createDomainDrivenDesignStructure extends Command
         }
     }
 
-    public function installRoutes(): void
+    public function installRoutes($showQuestion = true): void
     {
         if(config("ddd-config.create-route")) {
-            $install = $this->confirm("Do you want to install {$this->__('Routes')} on your domain?", true);
-            $which = $this->setChoice("Which routes do you want to install?", ['Web', "Api", "Both"], 'Web');
 
-            if ($this->attributes['controller']['install'] ?? false)
-                $controller = $this->confirm("Do you want to assign the routes to the {$this->__('Controller')}?", true);
+            if($showQuestion) {
+                $install = $this->confirm("Do you want to install {$this->__('Routes')} on your domain?", true);
+                $which = $this->setChoice("Which routes do you want to install?", ['Web', "Api", "Both"], 'Web');
+
+                if ($this->attributes['controller']['install'] ?? false)
+                    $controller = $this->confirm("Do you want to assign the routes to the {$this->__('Controller')}?", true);
+            }else{
+                $install = true;
+                $controller = true;
+                $which = 'both';
+            }
 
             if ($install) {
 

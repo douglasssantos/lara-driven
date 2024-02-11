@@ -33,13 +33,13 @@ Enter your domain name:
  > Company
 
  Do you want to keep the domain name as the folder name? [Company] (yes/no) [yes]:
- > 
+ > yes
 
  Do you want to create a [Model] for the domain? (yes/no) [yes]:
- > 
+ > yes
 
  Do you want to create [Migration], [Seed] or [Factory]? (yes/no) [yes]:
- > 
+ > yes
 
  Select one or more classes to manipulate your database. [Migration]:
   [0] Migration
@@ -49,28 +49,28 @@ Enter your domain name:
  > 3
 
  Do you want to create a [Policy] for your model? (yes/no) [no]:
- > y
+ > yes
 
  Do you want to create an empty [Service]? (yes/no) [no]:
- > 
+ > no
 
  Do you want to create an [Interface] for your service? (yes/no) [no]:
- > y
+ > yes
 
  Do you want to create the [Repository] to separate model actions from your service? (yes/no) [yes]:
- >
+ > yes
 
  Do you want to create an [Interface] for your repository? (yes/no) [no]:
- > y
+ > yes
 
  Do you want to create a [Controller] for your domain? (yes/no) [yes]:
- >
+ > yes
 
  Do you want to create a [Request] for processing and validation of your controller? (yes/no) [yes]:
- >
+ > yes
 
  Do you want to install [Routes] on your domain? (yes/no) [yes]:
- >
+ > yes
 
  Which routes do you want to install? [Web]:
   [0] Web
@@ -79,10 +79,10 @@ Enter your domain name:
  > 2
 
  Do you want to assign the routes to the [Controller]? (yes/no) [yes]:
- > y
+ > yes
 
  Do you want to add [Middleware] to your routes? (yes/no) [yes]:
- > y
+ > yes
  
   INFO  Clearing cached bootstrap files.
 
