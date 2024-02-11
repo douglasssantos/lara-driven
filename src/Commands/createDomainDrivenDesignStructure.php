@@ -28,7 +28,7 @@ class createDomainDrivenDesignStructure extends Command
      *
      * @var string
      */
-    protected $signature = 'make:ddd {structure?}';
+    protected $signature = 'lara-make:driven {domain?}';
 
     /**
      * The console command description.
@@ -44,6 +44,9 @@ class createDomainDrivenDesignStructure extends Command
      */
     public function handle()
     {
+        if(!empty($this->argument('domain')))
+            $this->attributes['domain'] = $this->argument('domain');
+
         $this->runQuestion();
     }
 
@@ -52,7 +55,33 @@ class createDomainDrivenDesignStructure extends Command
 
         $this->designService = new LaraDrivenService;
 
-        $this->attributes['domain'] = $this->ask("Enter your domain name");
+        if(empty($this->argument('domain')))
+            $this->attributes['domain'] = $this->ask("Enter your domain name");
+
+        if(empty($this->attributes['domain'])) {
+
+            $this->error("Cannot create a domain with an empty name!");
+
+            return false;
+
+        }
+
+        if(preg_match('/^[^ ].* .*[^ ]$/', $this->attributes['domain'])
+            || preg_match('/[\'^£$%&*()}{@#~?>.<>,;|=_+¬-]/', $this->attributes['domain'])){
+
+            $this->error("Cannot create a domain with spaces or special characters");
+
+            return false;
+
+        }
+
+        if($this->designService->hasStructure($this->attributes['domain'])){
+
+            $this->error("The domain you entered already exists!");
+
+            return false;
+
+        }
 
         if($this->designService->hasStructure($this->attributes['domain'])){
 

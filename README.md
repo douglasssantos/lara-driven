@@ -13,263 +13,85 @@ First Step, execute the command.
 composer require larakeeps/lara-driven
 ```
 
-Second step, run the migration to create the tables: ```auth_guard_otp_codes```
+lara-drive command has an argument called domain, where you can directly specify the name of the domain to be created.
+
 ```shell script
-php artisan migrate
+php artisan lara-make:driven {domain?}
 ```
-Third step, publish the authguard configuration, to publish the configurations run the command below:
+
+To create a domain with the help of Lara-Driven, run the command below.
+
 ```shell script
-php artisan vendor:publish --tag=authguard-otp-config 
+php artisan lara-make:driven
 ```
 
-**Generating otp code**
-```php
-use Larakeeps\LaraDriven\Facades\OTP;
+After executing the command, simply pass the information requested by Lara-Driven into the terminal. Below is an example of information.
 
-/** 
- * 
- * The create method has 3 parameters, 1 mandatory and 2 optional.
- * 
- * The $reference parameter is used with the assertive condition function in code validation.
- * The $email parameter is used in the same way as the $reference parameter
- * 
- * @param string $phone : required
- * @param string $email : optional
- * @param string $reference : optional
- * 
- * @method static OTP create(string $phone, string|null $email, string|null $reference)
- * 
- * */
+```shell script
 
-$createOTP = OTP::create('phone number', 'email', 'reference');
+Enter your domain name:
+ > Company
 
-// To retrieve the method return, call the following methods below.
+ Do you want to keep the domain name as the folder name? [Company] (yes/no) [yes]:
+ > 
 
-/** 
- * 
- * The then method returns 2 parameters, $data of type AuthGuard, and $response of type Collection.
- * 
- * @method then(Closure $destination)
- * 
- * */
+ Do you want to create a [Model] for the domain? (yes/no) [yes]:
+ > 
+
+ Do you want to create [Migration], [Seed] or [Factory]? (yes/no) [yes]:
+ > 
+
+ Select one or more classes to manipulate your database. [Migration]:
+  [0] Migration
+  [1] Seed
+  [2] Factory
+  [3] All
+ > 3
+
+ Do you want to create a [Policy] for your model? (yes/no) [no]:
+ > y
+
+ Do you want to create an empty [Service]? (yes/no) [no]:
+ > 
+
+ Do you want to create an [Interface] for your service? (yes/no) [no]:
+ > y
+
+ Do you want to create the [Repository] to separate model actions from your service? (yes/no) [yes]:
+ >
+
+ Do you want to create an [Interface] for your repository? (yes/no) [no]:
+ > y
+
+ Do you want to create a [Controller] for your domain? (yes/no) [yes]:
+ >
+
+ Do you want to create a [Request] for processing and validation of your controller? (yes/no) [yes]:
+ >
+
+ Do you want to install [Routes] on your domain? (yes/no) [yes]:
+ >
+
+ Which routes do you want to install? [Web]:
+  [0] Web
+  [1] Api
+  [2] Both
+ > 2
+
+ Do you want to assign the routes to the [Controller]? (yes/no) [yes]:
+ > y
+
+ Do you want to add [Middleware] to your routes? (yes/no) [yes]:
+ > y
  
-$createOTP->then(function (AuthGuard|null $data, Collection $response){
-       
-       /*
-        * the $data parameter returns the null or Authguard model containing the table columns.
-        */
-       
-       /*
-        * The $response parameter returns a collection containing the following data: 
-        * number_digits, code, message, status, user.access_token, user.ip_address
-        */
-        
-        return $data->expires_at; // returns a value of type Carbon::class;
-        
-        if($response->status){
-            return $response->message;
-        }
-       
-});
+  INFO  Clearing cached bootstrap files.
 
-// OR through the get() method that returns a Collection
-
-return $createOTP->get();
-
-// OR like this
-
-return OTP::get();
-
-
-// OR through the getResponse() method that returns a Collection
-
-return $createOTP->getResponse();
-
-// OR like this
-
-return OTP::getResponse();
-
-
-// OR can be called individually using methods
-
-return OTP::getData()->expires_at; // returns a value of type Carbon::class;
-
-if(OTP::getStatus()){
-    return OTP::getMessage();
-}
-
-return OTP::getAccessToken();
-return OTP::getIpAddress();
-
-
-```
-
-**Checking for the existence of generated code and viewing the generated data.**
-
-```php
-use Larakeeps\LaraDriven\Facades\OTP;
-
-
-
-/** 
- * 
- * Method to check if the generated code exists.
- * $phone parameter is used for better code verification assertiveness.
- * 
- * @method static bool hasCode(string $code, string|null $phone)
- * 
- * */
-
-$hasCode = OTP::hasCode('154896');
-
-if($hasCode){
-    return "The code exist."
-}
-
-
-/** 
- * 
- * Method for finding and returning data.
- * $phone parameter is used for better code verification assertiveness.
- * 
- * @method static OTP getByCode(string $code, string|null $phone)
- * 
- * */
-
-$authGuardFounded = OTP::getByCode('154896', '5521985642205');
-
-if($authGuardFounded){
-    return $authGuardFounded
-}
-
-
-```
-
-**Confirm whether the code entered is valid and whether it was actually confirmed.**
-
-```php
-use Larakeeps\LaraDriven\Facades\OTP;
-
-
-/** 
- * 
- * The create method has 3 parameters, 2 mandatory and 1 optional.
- * 
- * The $reference parameter is used with the assertive condition function in code validation.
- * 
- * @param string $code : required
- * @param string $phone : required
- * @param string $reference : optional
- * 
- * @method static OTP confirm(string $code, string $phone, string|null $reference)
- * 
- * */
- 
-$validateCode = OTP::confirm('154896', '5521985642205'); 
-
-// To retrieve the method return, call the following methods below.
-
-/** 
- * 
- * The then method returns 2 parameters, $data of type AuthGuard, and $response of type Collection.
- * 
- * @method then(Closure $destination)
- * 
- * */
- 
-$validateCode->then(function (null $data, Collection $response){
-       
-       /*
-        * 
-        * Within the confirm() method, the $data parameter will always return a null value.
-        * 
-        * The $response parameter returns a collection containing the following data: 
-        * number_digits, code, message, status, user.access_token, user.ip_address
-        */
-        
-        if($response->status && OTP::isConfirmed()){
-            return $response->message;
-        }
-        
-        return $response->message;
-       
-});
-
-// OR through the getResponse() method that returns a Collection
-
-return $createOTP->getResponse();
-
-// OR like this
-
-return OTP::getResponse();
-
-// OR can be called individually using methods
-
-if(OTP::getStatus()){
-    return OTP::getMessage();
-}
-
-return OTP::getAccessToken();
-return OTP::getIpAddress();
-
-
-```
-
-**Deleting an OTP code.**
-
-```php
-use Larakeeps\LaraDriven\Facades\OTP;
-
-/** 
- * 
- * @method OTP deleteCode(string $code)
- * 
- * */
- 
-$deletedCode = OTP::deleteCode();
-
-// To retrieve the method return, call the following methods below.
-
-/** 
- * 
- * The then method returns 2 parameters, $data of type AuthGuard, and $response of type Collection.
- * 
- * @method then(Closure $destination)
- * 
- * */
- 
-$validateCode->then(function (null $data, Collection $response){
-       
-       /*
-        * 
-        * Within the deleteCode() method, the $data parameter will always return a null value.
-        * 
-        * The $response parameter returns a collection containing the following data: 
-        * number_digits, code, message, status, user.access_token, user.ip_address
-        */
-        
-        if($response->status){
-            return $response->message;
-        }
-       
-});
-
-// OR through the getResponse() method that returns a Collection
-
-return $createOTP->getResponse();
-
-// OR like this
-
-return OTP::getResponse();
-
-// OR can be called individually using methods
-
-if(OTP::getStatus()){
-    return OTP::getMessage();
-}
-
-return OTP::getAccessToken();
-return OTP::getIpAddress();
+  events .................................................................................................................................. 1ms DONE
+  views ................................................................................................................................... 4ms DONE
+  cache ................................................................................................................................... 2ms DONE
+  route ................................................................................................................................... 2ms DONE
+  config .................................................................................................................................. 1ms DONE
+  compiled ................................................................................................................................ 1ms DONE
 
 
 ```
