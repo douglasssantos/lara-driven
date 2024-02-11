@@ -1,0 +1,60 @@
+{
+
+    "name": "larakeeps/lara-driven",
+    "description": "Lara-Driven is a package designed to create and organize layers using the Domain Drive Design methodology.",
+    "keywords": [
+        "framework",
+        "larakeeps",
+        "laravel",
+        "ddd",
+        "domain",
+        "architecture",
+        "mvc",
+        "driven",
+        "design",
+        "organization",
+        "code",
+        "structure",
+        "layers"
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Douglas S. Santos",
+            "email": "douglassantos2127@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/douglasssantos/lara-driven",
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "illuminate/support": "^10.10",
+        "illuminate/http": "^10.10",
+        "illuminate/database": "^v10.10",
+        "illuminate/collections": "^v10.10",
+        "illuminate/filesystem": "v10.10"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.19",
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Larakeeps\\LaraDriven\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Larakeeps\\LaraDriven\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Larakeeps\\LaraDriven\\Providers\\LaraDrivenServiceProvider"
+            ]
+        }
+    }
+}

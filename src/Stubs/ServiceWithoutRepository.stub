@@ -1,0 +1,162 @@
+<?php
+
+namespace {{namespace}};
+
+use Larakeeps\LaraDriven\Traits\ApiResponses;
+use {{modelNameSpace}};
+{{interfaceNameSpace}}
+
+class {{service}}Service {{interface}}
+{
+    use ApiResponses;
+
+    protected {{model}} $model;
+
+    public function __construct({{model}} $model)
+    {
+        $this->model = $model;
+    }
+
+    public function viewResponse(bool $status = null)
+    {
+        $this->viewResponse = ( $status ?? ( $this->viewResponse ?? true ));
+
+        return $this;
+    }
+
+    public function model(bool $status = null): {{model}}
+    {
+        return $this->model;
+    }
+
+    public function getAll($viewResponse = null)
+    {
+        $this->viewResponse($viewResponse);
+
+        try {
+
+            $all = $this->model->orderBy('id')->all();
+
+            if ($all->count() > 0)
+                return $this->success("Registros retornados.", $all, 200, false);
+
+            return $this->notFound("Nenhum registro retornado.",[], false);
+
+        }catch (\Exception $e) {
+
+            return $this->fail("Houve uma falha ao retornar os registros", $e);
+
+        }
+    }
+
+    public function find(array $id, $viewResponse = null)
+    {
+        $this->viewResponse($viewResponse);
+
+        try {
+
+            $find = $this->model->whereId($id);
+
+            if ($find->exists())
+                return $this->success("Registro retornado.", $find->first(), 200, false);
+
+            return $this->notFound("Nenhum registro retornado.", [], false);
+
+        }catch (\Exception $e) {
+
+            return $this->fail("Houve uma falha ao retornar o registro", $e);
+
+        }
+    }
+
+    public function findMany(array $ids, $viewResponse = null)
+    {
+        $this->viewResponse($viewResponse);
+
+        try {
+
+            $find = $this->model->whereIn('id', $ids);
+
+            if ($find->exists())
+                return $this->success("Registros retornados.", $find->get(), 200, false);
+
+            return $this->notFound("Nenhum registro retornado.", [], false);
+
+        }catch (\Exception $e) {
+
+            return $this->fail("Houve uma falha ao retornar os registros", $e);
+
+        }
+    }
+
+    public function create(array $data, $viewResponse = null)
+    {
+        $this->viewResponse($viewResponse);
+
+        try {
+
+            $create = $this->model->create($data);
+
+            if (!$create)
+                return $this->notFound("Não foi possivel criar o registro.", [], false);
+
+            return $this->success("Registro criado com sucesso.", $create, 200, false);
+
+        }catch (\Exception $e) {
+
+            return $this->fail("Houve uma falha ao criar o registro", $e);
+
+        }
+    }
+
+    public function update($data, $id, $viewResponse = null)
+    {
+        $this->viewResponse($viewResponse);
+
+        try {
+
+            $update = $this->model->where('id', $id);
+
+            if($update->doesntExist())
+
+                return $this->notFound("Registro não encontrado.", [], false);
+
+            $update = $update->first();
+
+            foreach($data as $key => $value){
+                if($value !== null) $update->$key = $value;
+            }
+            if (!$update->save())
+                return $this->notFound("Não foi possivel salvar as alterações do registro.", [], false);
+
+            return $this->success("Alterações salva com sucesso.", $data, 200, false);
+
+        }catch (\Exception $e) {
+
+            return $this->fail("Houve uma falha ao salvar as alterações do registro", $e);
+
+        }
+    }
+
+    public function destroy($id, $viewResponse = null)
+    {
+        $this->viewResponse($viewResponse);
+
+        try {
+
+            $destroy = $this->model->whereId($id);
+            if($destroy->doesntExist())
+                return $this->notFound("Registro não encontrado.", [], false);
+            $destroy = $destroy->delete();
+            if (!$destroy)
+                return $this->notFound("Não foi possivel deletar o registro.", [], false);
+
+            return $this->success("Registro deletado com sucesso.", $destroy, 200, false);
+
+        }catch (\Exception $e) {
+
+            return $this->fail("Houve uma falha ao deletar o registro", $e);
+
+        }
+    }
+}

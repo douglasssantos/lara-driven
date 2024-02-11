@@ -1,0 +1,12 @@
+<?php
+
+namespace {{namespace}};
+
+interface {{interface}}RepositoryInterface
+{
+	public function getAll();
+	public function find($id);
+	public function create($data);
+	public function update($data, $id);
+	public function destroy($id);
+}

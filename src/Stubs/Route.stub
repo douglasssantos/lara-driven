@@ -1,0 +1,9 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+{{middlewareNameSpace}}
+
+Route::{{controller}}name("{{router}}.")->prefix("{{router}}")->group(function (){
+
+
+}){{middleware}};
