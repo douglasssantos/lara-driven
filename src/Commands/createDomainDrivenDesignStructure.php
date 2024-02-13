@@ -107,7 +107,7 @@ class createDomainDrivenDesignStructure extends Command
 
         $this->optimize();
 
-        $this->designService->addStructureInDDD($this->attributes['domain'], $this->attributes['path']);
+        $this->designService->addStructureInDDD($this->attributes['domain'], "app/{$this->attributes['path']}");
 
     }
 
