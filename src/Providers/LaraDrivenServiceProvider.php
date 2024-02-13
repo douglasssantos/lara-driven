@@ -3,6 +3,7 @@
 namespace Larakeeps\LaraDriven\Providers;
 
 use Larakeeps\LaraDriven\Commands\createDomainDrivenDesignStructure;
+use Larakeeps\LaraDriven\Commands\publishConfig;
 use Larakeeps\LaraDriven\Services\LaraDrivenService;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
@@ -57,6 +58,7 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands(createDomainDrivenDesignStructure::class);
+            $this->commands(publishConfig::class);
         }
     }
 
