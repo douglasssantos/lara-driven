@@ -2,8 +2,38 @@
 
 return [
 
+    /*
+     * Only change any settings if you are aware of what you are doing.
+     */
+
+
+    /*
+     * Framework Load Settings
+     */
+
     // this variable must be filled in with the path where the container file will be created and read.
     "containerFilePath"                => "containers.yaml",
+
+    // Enable/disable configuration loading.
+    "load-configs"                     => true,
+
+    // Enable/disable the loading of translations.
+    "load-translations"                => true,
+
+    // Enable/disable command loading.
+    "load-commands"                    => true,
+
+    // Enable/disable the loading of routes.
+    "load-routes"                      => true,
+
+    // Enable/disable the loading of migrations.
+    "load-migrations"                  => true,
+
+
+    /*
+     * Configurations for creating the structure
+     */
+
 
     // enable creation of the model file and directory?
     "create-model"                     => true,
@@ -44,7 +74,7 @@ return [
     // enable creation of the route file and directory?
     "create-route"                     => true,
 
-    // enable creation of the config file and directory?
+    // enable creation of the command file and directory?
     "create-command"                   => true,
 
     // enable creation of the config file and directory?

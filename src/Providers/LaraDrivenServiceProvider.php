@@ -95,6 +95,9 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function loadMigrations(): static
     {
+        if(!config("ddd-config.load-migrations"))
+            return $this;
+
         $this->loadMigrationsFrom($this->file->glob("{$this->path}/Database/Migrations/*"));
 
         return $this;
@@ -102,6 +105,8 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function loadRoutes(): static
     {
+        if(!config("ddd-config.load-routes")) return $this;
+
         foreach ($this->file->glob("{$this->path}/Routes/*") as $route) {
 
             $this->loadRoutesFrom($route);
@@ -113,6 +118,8 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function loadConfigs(): static
     {
+        if(!config("ddd-config.load-configs"))  return $this;
+
         foreach ($this->file->glob("{$this->path}/Config/*") as $config) {
 
             $this->mergeConfigFrom($config, $this->file->name($config));
@@ -124,6 +131,8 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function loadTranslations(): static
     {
+        if(!config("ddd-config.load-translations")) return $this;
+
         foreach ($this->file->glob("{$this->path}/Lang/*") as $lang) {
 
             $this->loadTranslationsFrom($lang, $this->file->name($lang));
@@ -135,6 +144,8 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function loadCommands(): static
     {
+        if(!config("ddd-config.load-commands")) return $this;
+
         $designService = new LaraDrivenService();
 
         $designService->setPath("{$this->path}/Commands");
