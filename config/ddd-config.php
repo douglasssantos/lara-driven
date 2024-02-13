@@ -45,6 +45,9 @@ return [
     "create-route"                     => true,
 
     // enable creation of the config file and directory?
+    "create-command"                   => true,
+
+    // enable creation of the config file and directory?
     "create-config"                    => true,
 
 ];

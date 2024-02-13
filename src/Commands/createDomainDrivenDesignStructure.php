@@ -102,6 +102,8 @@ class createDomainDrivenDesignStructure extends Command
         $this->installService();
         $this->installController();
         $this->installRoutes();
+        $this->installConfig();
+        $this->installCommand();
 
         $this->optimize();
 
@@ -375,6 +377,28 @@ class createDomainDrivenDesignStructure extends Command
                 $route->build();
 
             }
+        }
+    }
+
+    public function installConfig($showQuestion = true): void
+    {
+        if(config("ddd-config.create-config")) {
+            if ($showQuestion)
+                $this->attributes['config']['install'] = $this->confirm("Do you want to create the {$this->__('Config')} file on your domain?", true);
+
+            if ($showQuestion || ($this->attributes['config']['install'] ?? false))
+                (new ConfigAction($this->attributes['domain'], $this->attributes['path']))->build();
+        }
+    }
+
+    public function installCommand($showQuestion = true): void
+    {
+        if(config("ddd-config.create-command")) {
+            if ($showQuestion)
+                $this->attributes['command']['install'] = $this->confirm("Do you want to create the {$this->__('Command')} file for your domain?", false);
+
+            if ($showQuestion || ($this->attributes['command']['install'] ?? false))
+                (new CommandAction($this->attributes['domain'], $this->attributes['path']))->build();
         }
     }
 
