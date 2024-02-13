@@ -30,11 +30,11 @@
     "license": "MIT",
     "type": "library",
     "require": {
-        "illuminate/support": "^10.10",
-        "illuminate/http": "^10.10",
-        "illuminate/database": "^v10.10",
-        "illuminate/collections": "^v10.10",
-        "illuminate/filesystem": "v10.10"
+        "illuminate/support": "^10.*",
+        "illuminate/http": "^10.*",
+        "illuminate/database": "^v10.*",
+        "illuminate/collections": "^v10.*",
+        "illuminate/filesystem": "v10.*"
     },
     "require-dev": {
         "orchestra/testbench": "^8.19",
