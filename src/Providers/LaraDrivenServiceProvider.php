@@ -48,9 +48,9 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function mergeConfigDDD()
     {
-        $this->mergeConfigFrom(__DIR__."../Config/ddd-config.php", 'ddd-config');
+        $this->mergeConfigFrom(__DIR__."/../Config/ddd-config.php", 'ddd-config');
         $this->publishes([
-            __DIR__."../Config/ddd-config.php" => config_path('ddd-config.php'),
+            __DIR__."/../Config/ddd-config.php" => config_path('ddd-config.php'),
         ]);
 
         if ($this->app->runningInConsole()) {
