@@ -13,6 +13,22 @@ First Step, execute the command.
 composer require larakeeps/lara-driven
 ```
 
+Second step, add the LaraDrivenServiceProvider. Open config/app.php and add a new item to the providers array.
+
+```php
+'providers' => ServiceProvider::defaultProviders()->merge([
+        /*
+         * add the service provider below.
+         */
+        \Larakeeps\LaraDriven\Providers\LaraDrivenServiceProvider::class
+        
+        //rest of your code......
+         
+]
+```
+
+now lara-driven is ready for operation.
+
 lara-drive command has an argument called domain, where you can directly specify the name of the domain to be created.
 
 ```shell script
