@@ -28,7 +28,7 @@ class createDomainDrivenDesignStructure extends Command
      *
      * @var string
      */
-    protected $signature = 'lara-make:driven {domain?}';
+    protected $signature = 'lara-driven:make {domain?}';
 
     /**
      * The console command description.
@@ -146,7 +146,7 @@ class createDomainDrivenDesignStructure extends Command
 
     public function installModel(): void
     {
-        if(config("ddd-config.create-model")) {
+        if(config("lara-driven-config.create-model")) {
             $this->attributes['model']['install'] = $this->confirm("Do you want to create a {$this->__('Model')} for the domain?", true);
 
             if ($this->attributes['model']['install'])
@@ -158,7 +158,7 @@ class createDomainDrivenDesignStructure extends Command
 
     public function installPolicy(): void
     {
-        if(config("ddd-config.create-policy")) {
+        if(config("lara-driven-config.create-policy")) {
             $this->attributes['model']['installPolicy'] = $this->confirm("Do you want to create a {$this->__('Policy')} for your model?");
 
             if ($this->attributes['model']['installPolicy'])
@@ -168,9 +168,9 @@ class createDomainDrivenDesignStructure extends Command
 
     public function installDatabase(): void
     {
-        if(!config("ddd-config.create-migration")
-            && !config("ddd-config.create-seed")
-            && !config("ddd-config.create-factory"))  return;
+        if(!config("lara-driven-config.create-migration")
+            && !config("lara-driven-config.create-seed")
+            && !config("lara-driven-config.create-factory"))  return;
 
         $this->attributes['database']['install'] = $this->confirm(
             "Do you want to create {$this->__('Migration')}, {$this->__('Seed')} or {$this->__('Factory')}?", true);
@@ -205,13 +205,13 @@ class createDomainDrivenDesignStructure extends Command
     {
         $database = [];
 
-        if(config("ddd-config.create-migration"))
+        if(config("lara-driven-config.create-migration"))
             $database[] = 'Migration';
 
-        if(config("ddd-config.create-migration"))
+        if(config("lara-driven-config.create-migration"))
             $database[] = 'Seed';
 
-        if(config("ddd-config.create-migration"))
+        if(config("lara-driven-config.create-migration"))
             $database[] = 'Factory';
 
         if(is_countable($database) && count($database) > 1)
@@ -223,7 +223,7 @@ class createDomainDrivenDesignStructure extends Command
 
     public function installMigration($showQuestion = true): void
     {
-        if(!config("ddd-config.create-migration"))  return;
+        if(!config("lara-driven-config.create-migration"))  return;
 
         if($showQuestion)
             $this->attributes['database']['install'] = $this->confirm("Do you want to create {$this->__('Migration')} for your model?");
@@ -234,7 +234,7 @@ class createDomainDrivenDesignStructure extends Command
 
     public function installSeed($showQuestion = true): void
     {
-        if(!config("ddd-config.create-seed"))  return;
+        if(!config("lara-driven-config.create-seed"))  return;
 
         if($showQuestion)
             $this->attributes['database']['install'] = $this->confirm("Do you want to create a {$this->__('Seed')} to insert default values into your database?");
@@ -245,7 +245,7 @@ class createDomainDrivenDesignStructure extends Command
 
     public function installFactory($showQuestion = true): void
     {
-        if(!config("ddd-config.create-factory"))  return;
+        if(!config("lara-driven-config.create-factory"))  return;
 
         if($showQuestion)
             $this->attributes['database']['install'] = $this->confirm("Do you want to create a {$this->__('Factory')} to populate your database?");
@@ -256,7 +256,7 @@ class createDomainDrivenDesignStructure extends Command
 
     public function installService($showQuestion = true): void
     {
-        if(config("ddd-config.create-service")) {
+        if(config("lara-driven-config.create-service")) {
 
             $this->attributes['service']['installEmpty'] = $this->confirm(
                 "Do you want to create an empty {$this->__('Service')}?");
@@ -308,7 +308,7 @@ class createDomainDrivenDesignStructure extends Command
     }
     public function installController($showQuestion = true): void
     {
-        if(config("ddd-config.create-controller")) {
+        if(config("lara-driven-config.create-controller")) {
             if ($showQuestion)
                 $this->attributes['controller']['install'] = $this->confirm("Do you want to create a {$this->__('Controller')} for your domain?", true);
 
@@ -321,7 +321,7 @@ class createDomainDrivenDesignStructure extends Command
     }
     public function installRequest($showQuestion = true): void
     {
-        if(config("ddd-config.create-request")) {
+        if(config("lara-driven-config.create-request")) {
             if ($showQuestion)
                 $this->attributes['controller']['installRequest'] = $this->confirm(
                     "Do you want to create a {$this->__('Request')} for processing and validation of your controller?", true);
@@ -333,7 +333,7 @@ class createDomainDrivenDesignStructure extends Command
     }
     public function installMiddleware($showQuestion = true): void
     {
-        if(config("ddd-config.create-middleware")) {
+        if(config("lara-driven-config.create-middleware")) {
             if ($showQuestion)
                 $this->attributes['controller']['installMiddleware'] = $this->confirm("Do you want to add {$this->__('Middleware')} to your routes?", true);
 
@@ -344,7 +344,7 @@ class createDomainDrivenDesignStructure extends Command
 
     public function installRoutes($showQuestion = true): void
     {
-        if(config("ddd-config.create-route")) {
+        if(config("lara-driven-config.create-route")) {
 
             if($showQuestion) {
                 $install = $this->confirm("Do you want to install {$this->__('Routes')} on your domain?", true);
@@ -368,10 +368,10 @@ class createDomainDrivenDesignStructure extends Command
 
                 if ($which === "api" || $which === "both") $route->isApi();
 
-                if (config("ddd-config.create-controller"))
+                if (config("lara-driven-config.create-controller"))
                     if ($controller ?? false) $route->withController();
 
-                if (config("ddd-config.create-middleware"))
+                if (config("lara-driven-config.create-middleware"))
                     if ($this->attributes['controller']['installMiddleware'] ?? false) $route->withMiddleware();
 
                 $route->build();
@@ -382,7 +382,7 @@ class createDomainDrivenDesignStructure extends Command
 
     public function installConfig($showQuestion = true): void
     {
-        if(config("ddd-config.create-config")) {
+        if(config("lara-driven-config.create-config")) {
             if ($showQuestion)
                 $this->attributes['config']['install'] = $this->confirm("Do you want to create the {$this->__('Config')} file on your domain?", true);
 
@@ -393,7 +393,7 @@ class createDomainDrivenDesignStructure extends Command
 
     public function installCommand($showQuestion = true): void
     {
-        if(config("ddd-config.create-command")) {
+        if(config("lara-driven-config.create-command")) {
             if ($showQuestion)
                 $this->attributes['command']['install'] = $this->confirm("Do you want to create the {$this->__('Command')} file for your domain?", false);
 

@@ -30,7 +30,7 @@ class LaraDrivenServiceProvider extends ServiceProvider
     {
         $this->file = new Filesystem();
 
-        $this->fileStructureYaml = config("ddd-config.containerFilePath", $this->fileStructureYaml);
+        $this->fileStructureYaml = config("lara-driven-config.containerFilePath", $this->fileStructureYaml);
 
         $this->mergeConfigDDD();
 
@@ -50,10 +50,10 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function mergeConfigDDD(): void
     {
-        $this->mergeConfigFrom(__DIR__."/../../config/ddd-config.php", 'ddd-config');
+        $this->mergeConfigFrom(__DIR__."/../../config/lara-driven-config.php", 'lara-driven-config');
         $this->publishes([
-            __DIR__."/../../config/ddd-config.php" => config_path('ddd-config.php'),
-        ]);
+            __DIR__."/../../config/lara-driven-config.php" => config_path('lara-driven-config.php'),
+        ], "lara-driven-config");
 
         if ($this->app->runningInConsole()) {
             $this->commands(createDomainDrivenDesignStructure::class);
@@ -97,7 +97,7 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function loadMigrations(): static
     {
-        if(!config("ddd-config.load-migrations"))
+        if(!config("lara-driven-config.load-migrations"))
             return $this;
 
         $this->loadMigrationsFrom($this->file->glob("{$this->path}/Database/Migrations/*"));
@@ -107,7 +107,7 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function loadRoutes(): static
     {
-        if(!config("ddd-config.load-routes")) return $this;
+        if(!config("lara-driven-config.load-routes")) return $this;
 
         foreach ($this->file->glob("{$this->path}/Routes/*") as $route) {
 
@@ -120,7 +120,7 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function loadConfigs(): static
     {
-        if(!config("ddd-config.load-configs"))  return $this;
+        if(!config("lara-driven-config.load-configs"))  return $this;
 
         foreach ($this->file->glob("{$this->path}/Config/*") as $config) {
 
@@ -133,7 +133,7 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function loadTranslations(): static
     {
-        if(!config("ddd-config.load-translations")) return $this;
+        if(!config("lara-driven-config.load-translations")) return $this;
 
         foreach ($this->file->glob("{$this->path}/Lang/*") as $lang) {
 
@@ -146,7 +146,7 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function loadCommands(): static
     {
-        if(!config("ddd-config.load-commands")) return $this;
+        if(!config("lara-driven-config.load-commands")) return $this;
 
         $designService = new LaraDrivenService();
 

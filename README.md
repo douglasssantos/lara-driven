@@ -16,13 +16,24 @@ composer require larakeeps/lara-driven
 lara-drive command has an argument called domain, where you can directly specify the name of the domain to be created.
 
 ```shell script
-php artisan lara-make:driven {domain?}
+php artisan lara-driven:make {domain?}
+```
+
+To publish lara-driven settings, run the command below
+
+```shell script
+php artisan lara-driven:publish
+
+//OR 
+
+php artisan vendor:publish --tag=lara-driven-config
+
 ```
 
 To create a domain with the help of Lara-Driven, run the command below.
 
 ```shell script
-php artisan lara-make:driven
+php artisan lara-driven:make
 ```
 
 After executing the command, simply pass the information requested by Lara-Driven into the terminal. Below is an example of information.

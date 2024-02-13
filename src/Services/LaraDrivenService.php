@@ -20,7 +20,7 @@ class LaraDrivenService
 
     public function __construct(string $fileName = null, $stubFileName = null, $path = null)
     {
-        $this->fileStructureYaml = config("ddd-config.containerFilePath", $this->fileStructureYaml);
+        $this->fileStructureYaml = config("lara-driven-config.containerFilePath", $this->fileStructureYaml);
 
         $this->fileName = $fileName;
         $this->stubFileName = $stubFileName;
