@@ -15,6 +15,7 @@ class LaraDrivenServiceProvider extends ServiceProvider
     protected string $path = '';
 
     protected Filesystem $file;
+
     /**
      * Register services.
      */
@@ -28,6 +29,8 @@ class LaraDrivenServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->file = new Filesystem();
+
+        $this->fileStructureYaml = config("ddd-config.containerFilePath", $this->fileStructureYaml);
 
         $this->mergeConfigDDD();
 
@@ -45,8 +48,7 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     }
 
-
-    public function mergeConfigDDD()
+    public function mergeConfigDDD(): void
     {
         $this->mergeConfigFrom(__DIR__."/../../config/ddd-config.php", 'ddd-config');
         $this->publishes([

@@ -16,11 +16,11 @@ class LaraDrivenService
     protected string|null $stubFileName;
     protected string|null $namespace;
 
-    protected string $fileStructureYaml = '';
+    protected string $fileStructureYaml = 'containers.yaml';
 
     public function __construct(string $fileName = null, $stubFileName = null, $path = null)
     {
-        $this->fileStructureYaml = base_path('containers.yaml');
+        $this->fileStructureYaml = config("ddd-config.containerFilePath", $this->fileStructureYaml);
 
         $this->fileName = $fileName;
         $this->stubFileName = $stubFileName;
