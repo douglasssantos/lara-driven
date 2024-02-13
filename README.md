@@ -83,6 +83,12 @@ Enter your domain name:
 
  Do you want to add [Middleware] to your routes? (yes/no) [yes]:
  > yes
+
+ Do you want to create the [Config] file on your domain? (yes/no) [yes]:
+ > yes 
+
+ Do you want to create the [Command] file for your domain? (yes/no) [no]:
+ > yes
  
   INFO  Clearing cached bootstrap files.
 
