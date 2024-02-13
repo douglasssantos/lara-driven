@@ -5,6 +5,7 @@ namespace Larakeeps\LaraDriven\Services;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Yaml\Yaml;
+use function Illuminate\Filesystem\join_paths;
 
 class LaraDrivenService
 {
