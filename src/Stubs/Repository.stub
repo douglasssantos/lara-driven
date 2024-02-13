@@ -51,7 +51,7 @@ class {{repository}}Repository {{interface}}
 		}
 	}
 
-	public function find(int $id, $viewResponse = null)
+	public function find($id, $viewResponse = null)
 	{
 		$this->viewResponse($viewResponse);
 
@@ -71,7 +71,7 @@ class {{repository}}Repository {{interface}}
 		}
 	}
 
-	public function findMany(array $ids, $viewResponse = null)
+	public function findMany($ids, $viewResponse = null)
 	{
 		$this->viewResponse($viewResponse);
 
@@ -91,7 +91,7 @@ class {{repository}}Repository {{interface}}
 		}
 	}
 
-	public function create(array $data, $viewResponse = null)
+	public function create($data, $viewResponse = null)
 	{
 		$this->viewResponse($viewResponse);
 
@@ -111,7 +111,7 @@ class {{repository}}Repository {{interface}}
 		}
 	}
 
-	public function update(array $data, $id, $viewResponse = null)
+	public function update($data, $id, $viewResponse = null)
 	{
 		$this->viewResponse($viewResponse);
 
