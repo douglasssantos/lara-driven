@@ -391,13 +391,12 @@ class createDomainDrivenDesignStructure extends Command
         }
     }
 
-    public function installCommand($showQuestion = true): void
+    public function installCommand(): void
     {
         if(config("lara-driven-config.create-command")) {
-            if ($showQuestion)
                 $this->attributes['command']['install'] = $this->confirm("Do you want to create the {$this->__('Command')} file for your domain?", false);
 
-            if (!$showQuestion || ($this->attributes['command']['install'] ?? false))
+            if ($this->attributes['command']['install'])
                 (new CommandAction($this->attributes['domain'], $this->attributes['path']))->build();
         }
     }
