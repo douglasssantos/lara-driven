@@ -32,6 +32,13 @@ class ControllerAction
         return $this;
     }
 
+    public function withServiceEmpty(): static
+    {
+        $this->designService->setStubFileName('ControllerWithServiceEmpty.stub');
+
+        return $this;
+    }
+
     public function setPath(string $path): static
     {
         $this->designService->setPath($path);

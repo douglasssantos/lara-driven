@@ -312,8 +312,13 @@ class createDomainDrivenDesignStructure extends Command
             if ($showQuestion)
                 $this->attributes['controller']['install'] = $this->confirm("Do you want to create a {$this->__('Controller')} for your domain?", true);
 
-            if (!$showQuestion || ($this->attributes['controller']['install'] ?? false))
-                (new ControllerAction($this->attributes['domain'], $this->attributes['path']))->build();
+            if (!$showQuestion || ($this->attributes['controller']['install'] ?? false)) {
+                $controller = (new ControllerAction($this->attributes['domain'], $this->attributes['path']));
+
+                if ($this->attributes['service']['installEmpty'] ?? false) $controller->withServiceEmpty();
+
+                $controller->build();
+            }
 
             $this->installRequest();
         }
