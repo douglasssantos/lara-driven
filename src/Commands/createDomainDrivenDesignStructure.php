@@ -346,7 +346,7 @@ class createDomainDrivenDesignStructure extends Command
     {
         if(config("lara-driven-config.create-route")) {
 
-            if(!$showQuestion) {
+            if($showQuestion) {
                 $install = $this->confirm("Do you want to install {$this->__('Routes')} on your domain?", true);
                 $which = $this->setChoice("Which routes do you want to install?", ['Web', "Api", "Both"], 'Web');
 
