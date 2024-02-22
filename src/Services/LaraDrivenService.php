@@ -94,11 +94,7 @@ class LaraDrivenService
     public function setCustomNameSpace($namespace): string
     {
 
-        $currentNameSpace = $this->getNameSpace();
-
-        $currentNameSpace = Str::remove("App\\", $currentNameSpace);
-
-        return "App\\{$path[0]}\\{$namespace}";
+        return "{$this->getNameSpaceSource()}\\{$namespace}";
 
     }
 

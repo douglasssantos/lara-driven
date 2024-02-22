@@ -129,9 +129,16 @@ class RouteAction
         if($this->withController)
             $controller = $this->designService->setCustomNameSpace($this->designService->setFileNameStudlyCase($this->router));
 
-        return str_replace("{{controller}}",
-            ( $controller ?? false ? "controller(".$controller."Controller::class)\n->" : '' ),
-        $stub);
+        return str_replace(
+            [
+                "{{controllerNameSpace}}",
+                "{{controller}}"
+            ],
+            [
+                ( $controller ?? false ? "use {$controller}Controller;" : '' ),
+                ( $controller ?? false ? "controller(".$this->designService->setFileNameStudlyCase($this->router)."Controller::class)\n->" : '' ),
+            ],
+            $stub);
     }
 
     public function setMiddleware($stub): array|string
@@ -149,6 +156,6 @@ class RouteAction
                 ( $middleware ?? false ? "use {$middleware};" : '' ),
                 ( $middleware ?? false ? "->middleware(".$this->designService->setFileNameStudlyCase($this->router)."::class)" : '' )
             ],
-        $stub);
+            $stub);
     }
 }
