@@ -228,7 +228,7 @@ class createDomainDrivenDesignStructure extends Command
         if($showQuestion)
             $this->attributes['database']['install'] = $this->confirm("Do you want to create {$this->__('Migration')} for your model?");
 
-        if($showQuestion || ($this->attributes['database']['install'] ?? false))
+        if(!$showQuestion || ($this->attributes['database']['install'] ?? false))
             (new MigrationAction($this->attributes['domain'], $this->attributes['path']))->build();
     }
 
@@ -239,7 +239,7 @@ class createDomainDrivenDesignStructure extends Command
         if($showQuestion)
             $this->attributes['database']['install'] = $this->confirm("Do you want to create a {$this->__('Seed')} to insert default values into your database?");
 
-        if($showQuestion || ($this->attributes['database']['install'] ?? false))
+        if(!$showQuestion || ($this->attributes['database']['install'] ?? false))
             (new SeedAction($this->attributes['domain'], $this->attributes['path']))->build();
     }
 
@@ -250,11 +250,11 @@ class createDomainDrivenDesignStructure extends Command
         if($showQuestion)
             $this->attributes['database']['install'] = $this->confirm("Do you want to create a {$this->__('Factory')} to populate your database?");
 
-        if($showQuestion || ($this->attributes['database']['install'] ?? false))
+        if(!$showQuestion || ($this->attributes['database']['install'] ?? false))
             (new FactoryAction($this->attributes['domain'], $this->attributes['path']))->build();
     }
 
-    public function installService($showQuestion = true): void
+    public function installService(): void
     {
         if(config("lara-driven-config.create-service")) {
 
@@ -282,7 +282,7 @@ class createDomainDrivenDesignStructure extends Command
 
     }
 
-    public function installRepository($showQuestion = true): void
+    public function installRepository(): void
     {
 
         if($this->attributes['model']['install']) {
@@ -312,7 +312,7 @@ class createDomainDrivenDesignStructure extends Command
             if ($showQuestion)
                 $this->attributes['controller']['install'] = $this->confirm("Do you want to create a {$this->__('Controller')} for your domain?", true);
 
-            if ($showQuestion || ($this->attributes['controller']['install'] ?? false))
+            if (!$showQuestion || ($this->attributes['controller']['install'] ?? false))
                 (new ControllerAction($this->attributes['domain'], $this->attributes['path']))->build();
 
             $this->installRequest();
@@ -326,7 +326,7 @@ class createDomainDrivenDesignStructure extends Command
                 $this->attributes['controller']['installRequest'] = $this->confirm(
                     "Do you want to create a {$this->__('Request')} for processing and validation of your controller?", true);
 
-            if ($showQuestion || ($this->attributes['controller']['installRequest'] ?? false))
+            if (!$showQuestion || ($this->attributes['controller']['installRequest'] ?? false))
                 (new RequestAction($this->attributes['domain'], $this->attributes['path']))->build();
         }
 
@@ -337,7 +337,7 @@ class createDomainDrivenDesignStructure extends Command
             if ($showQuestion)
                 $this->attributes['controller']['installMiddleware'] = $this->confirm("Do you want to add {$this->__('Middleware')} to your routes?", true);
 
-            if ($showQuestion || ($this->attributes['controller']['installMiddleware'] ?? false))
+            if (!$showQuestion || ($this->attributes['controller']['installMiddleware'] ?? false))
                 (new MiddlewareAction($this->attributes['domain'], $this->attributes['path']))->build();
         }
     }
@@ -346,7 +346,7 @@ class createDomainDrivenDesignStructure extends Command
     {
         if(config("lara-driven-config.create-route")) {
 
-            if($showQuestion) {
+            if(!$showQuestion) {
                 $install = $this->confirm("Do you want to install {$this->__('Routes')} on your domain?", true);
                 $which = $this->setChoice("Which routes do you want to install?", ['Web', "Api", "Both"], 'Web');
 
@@ -386,7 +386,7 @@ class createDomainDrivenDesignStructure extends Command
             if ($showQuestion)
                 $this->attributes['config']['install'] = $this->confirm("Do you want to create the {$this->__('Config')} file on your domain?", true);
 
-            if ($showQuestion || ($this->attributes['config']['install'] ?? false))
+            if (!$showQuestion || ($this->attributes['config']['install'] ?? false))
                 (new ConfigAction($this->attributes['domain'], $this->attributes['path']))->build();
         }
     }
@@ -397,7 +397,7 @@ class createDomainDrivenDesignStructure extends Command
             if ($showQuestion)
                 $this->attributes['command']['install'] = $this->confirm("Do you want to create the {$this->__('Command')} file for your domain?", false);
 
-            if ($showQuestion || ($this->attributes['command']['install'] ?? false))
+            if (!$showQuestion || ($this->attributes['command']['install'] ?? false))
                 (new CommandAction($this->attributes['domain'], $this->attributes['path']))->build();
         }
     }
