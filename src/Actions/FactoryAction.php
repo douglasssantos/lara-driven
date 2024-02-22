@@ -21,6 +21,7 @@ class FactoryAction
         $this->designService = new LaraDrivenService($factory, 'Factory.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}/Database/Factories"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
     }
 

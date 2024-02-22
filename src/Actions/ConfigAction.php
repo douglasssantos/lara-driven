@@ -22,6 +22,7 @@ class ConfigAction
         $this->designService = new LaraDrivenService($config, 'Config.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}/Config"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
     }
 

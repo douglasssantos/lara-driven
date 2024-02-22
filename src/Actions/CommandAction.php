@@ -22,6 +22,7 @@ class CommandAction
         $this->designService = new LaraDrivenService($command, 'Command.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}/Commands"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
     }
 

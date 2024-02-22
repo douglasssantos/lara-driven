@@ -12,6 +12,7 @@ class LaraDrivenService
     protected Filesystem $file;
     protected string|null $fileName = null;
     protected string|null $path = null;
+    protected string|null $pathSource = null;
     protected string|null $dirName = null;
     protected string|null $stubFileName;
     protected string|null $namespace;
@@ -77,14 +78,25 @@ class LaraDrivenService
         return $this->namespace;
     }
 
+    public function getNameSpaceSource(): string|null
+    {
+        $nameSpace = Str::after($this->getPathSource(), "app/");
+
+        $nameSpace = Str::replace("/", "\\", $nameSpace);
+
+        $treatmentNameSpace = Str::headline("App\\{$nameSpace}");
+
+        $this->setNameSpace(Str::remove(' ', $treatmentNameSpace));
+
+        return $this->namespace;
+    }
+
     public function setCustomNameSpace($namespace): string
     {
 
         $currentNameSpace = $this->getNameSpace();
 
         $currentNameSpace = Str::remove("App\\", $currentNameSpace);
-
-        $path = explode("\\", $currentNameSpace);
 
         return "App\\{$path[0]}\\{$namespace}";
 
@@ -104,11 +116,25 @@ class LaraDrivenService
         return $this;
     }
 
+    public function setPathSource(string $path): static
+    {
+        $this->pathSource = $path;
+
+        return $this;
+    }
+
     public function getPath(): string
     {
         $this->file->ensureDirectoryExists($this->path);
 
         return $this->path;
+    }
+
+    public function getPathSource(): string
+    {
+        $this->file->ensureDirectoryExists($this->pathSource);
+
+        return $this->pathSource;
     }
 
     public function getDirname(): string

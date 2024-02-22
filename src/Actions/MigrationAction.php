@@ -21,6 +21,7 @@ class MigrationAction
         $this->designService = new LaraDrivenService($table, 'Migration.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}/Database/Migrations"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
     }
 

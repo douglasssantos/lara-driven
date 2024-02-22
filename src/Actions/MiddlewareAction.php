@@ -21,6 +21,7 @@ class MiddlewareAction
         $this->designService = new LaraDrivenService($middleware, 'Middleware.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}/Http/Middleware"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
     }
 

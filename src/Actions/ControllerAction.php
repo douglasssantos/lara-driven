@@ -21,6 +21,7 @@ class ControllerAction
         $this->designService = new LaraDrivenService($controller, 'Controller.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
     }
 

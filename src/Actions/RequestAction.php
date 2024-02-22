@@ -21,6 +21,7 @@ class RequestAction
         $this->designService = new LaraDrivenService($request, 'Request.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}/Http/Requests"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
     }
 

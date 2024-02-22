@@ -21,6 +21,7 @@ class ModelAction
         $this->designService = new LaraDrivenService($model, 'Model.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}/Models"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
 //        $this->designService->setNameSpace("App\\{$path}\\Models");
 

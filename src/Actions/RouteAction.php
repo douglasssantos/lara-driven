@@ -28,6 +28,7 @@ class RouteAction
         $this->path = $path;
 
         $this->designService->setDefaultPath(app_path("{$path}/Routes"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
     }
 
@@ -136,7 +137,8 @@ class RouteAction
     public function setMiddleware($stub): array|string
     {
         if($this->withMiddleware)
-            $middleware = $this->designService->setCustomNameSpace("Http\\Middleware\\".$this->designService->setFileNameStudlyCase($this->router));
+            $middleware = $this->designService->setCustomNameSpace("Http\\Middleware\\".
+                $this->designService->setFileNameStudlyCase($this->router));
 
         return str_replace(
             [

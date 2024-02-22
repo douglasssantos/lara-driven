@@ -22,6 +22,7 @@ class ServiceAction
         $this->designService = new LaraDrivenService($service, 'ServiceWithoutRepository.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
         $this->path = $path;
 
@@ -84,7 +85,7 @@ class ServiceAction
         if($this->file->put($this->getFile(), $stub) !== false) {
 
             if($this->implementsInterface)
-               return $this->createInterface();
+                return $this->createInterface();
 
             return "Service created successfully.";
         }
@@ -112,7 +113,7 @@ class ServiceAction
     protected function setInterface($stub): array|string
     {
         if($this->implementsInterface) {
-            $namespace = "use App\\$this->service\\Contracts\\{$this->service}Interface;";
+            $namespace = "use {$this->designService->getNameSpaceSource()}\\Contracts\\{$this->service}Interface;";
             $implements = "implements {$this->designService->setFileNameStudlyCase($this->service)}Interface";
         }
 

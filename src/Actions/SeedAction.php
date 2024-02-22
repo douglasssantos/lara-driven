@@ -21,6 +21,7 @@ class SeedAction
         $this->designService = new LaraDrivenService($seeder, 'Seed.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}/Database/Seeders"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
     }
 

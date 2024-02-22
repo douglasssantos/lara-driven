@@ -22,6 +22,7 @@ class RepositoryAction
         $this->designService = new LaraDrivenService($repository, 'Repository.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
         $this->path = $path;
 
@@ -70,7 +71,7 @@ class RepositoryAction
         if($this->file->put($this->getFile(), $stub) !== false) {
 
             if($this->implementsInterface)
-               return $this->createInterface();
+                return $this->createInterface();
 
             return "Repository created successfully.";
         }
@@ -98,7 +99,7 @@ class RepositoryAction
     protected function setInterface($stub): array|string
     {
         if($this->implementsInterface) {
-            $namespace = "use App\\$this->repository\\Contracts\\{$this->repository}RepositoryInterface;";
+            $namespace = "use {$this->designService->getNameSpaceSource()}\\Contracts\\{$this->repository}RepositoryInterface;";
             $implements = "implements {$this->designService->setFileNameStudlyCase($this->repository)}RepositoryInterface";
         }
 

@@ -22,6 +22,7 @@ class PolicyAction
         $this->designService = new LaraDrivenService($policy, 'Policy.stub');
 
         $this->designService->setDefaultPath(app_path("{$path}/Models/Policies"));
+        $this->designService->setPathSource(app_path("{$path}"));
 
     }
 
