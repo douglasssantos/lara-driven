@@ -5,7 +5,6 @@ namespace Larakeeps\LaraDriven\Services;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Yaml\Yaml;
-use function Illuminate\Filesystem\join_paths;
 
 class LaraDrivenService
 {
@@ -29,6 +28,19 @@ class LaraDrivenService
 
         $this->file = new Filesystem();
 
+    }
+
+    public function join_paths($basePath, ...$paths): string
+    {
+        foreach ($paths as $index => $path) {
+            if (empty($path)) {
+                unset($paths[$index]);
+            } else {
+                $paths[$index] = DIRECTORY_SEPARATOR.ltrim($path, DIRECTORY_SEPARATOR);
+            }
+        }
+
+        return $basePath.implode('', $paths);
     }
 
     public function setFileName(string $fileName): static
@@ -174,7 +186,7 @@ class LaraDrivenService
 
     public function FileExists($pattern): bool
     {
-        return count($this->file->glob( join_paths($this->path, $pattern) )) !== 0;
+        return count($this->file->glob( $this->join_paths($this->path, $pattern) )) !== 0;
     }
 
     public function hasStructure($domain): bool|string
