@@ -154,7 +154,7 @@ class RouteAction
             ],
             [
                 ( $middleware ?? false ? "use {$middleware};" : '' ),
-                ( $middleware ?? false ? "->middleware(".$this->designService->setFileNameStudlyCase($this->router)."::class)" : '' )
+                ( $middleware ?? false ? "middleware(['auth:sanctum', ".$this->designService->setFileNameStudlyCase($this->router)."::class])->" : '' )
             ],
             $stub);
     }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 {{middlewareNameSpace}}
 {{controllerNameSpace}}
 
-Route::{{controller}}name("{{router}}.")->prefix("{{router}}")->group(function (){
+Route::{{middleware}}{{controller}}name("{{router}}.")->prefix("{{router}}")->group(function (){
 
 
-}){{middleware}};
+});
