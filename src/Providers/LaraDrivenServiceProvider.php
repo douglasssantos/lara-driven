@@ -114,9 +114,13 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
         foreach ($this->file->glob("{$this->path}/Routes/*") as $route) {
 
-            Route::middleware(basename($route) == "api.php" ? 'api' : 'web')
-                ->prefix(basename($route) == "api.php" ? 'api' : '')
-                ->name(basename($route) == "api.php" ? 'api.' : 'web.')
+            $name = basename($route) == "api.php" ? 'api' : 'web';
+
+            if($name === "api") $prefix = "api";
+
+            Route::middleware($name)
+                ->prefix($prefix ?? '')
+                ->name("{$name}.")
                 ->group(fn() => $this->loadRoutesFrom($route));
 
         }
