@@ -2,6 +2,7 @@
 
 namespace Larakeeps\LaraDriven\Providers;
 
+use Illuminate\Support\Facades\Route;
 use Larakeeps\LaraDriven\Commands\createDomainDrivenDesignStructure;
 use Larakeeps\LaraDriven\Commands\publishConfig;
 use Larakeeps\LaraDriven\Services\LaraDrivenService;
@@ -113,7 +114,10 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
         foreach ($this->file->glob("{$this->path}/Routes/*") as $route) {
 
-            $this->loadRoutesFrom($route);
+            Route::middleware(basename($route) == "api.php" ? 'api' : 'web')
+                ->prefix(basename($route) == "api.php" ? 'api' : '')
+                ->name(basename($route) == "api.php" ? 'api.' : 'web.')
+                ->group(fn() => $this->loadRoutesFrom($route));
 
         }
 
