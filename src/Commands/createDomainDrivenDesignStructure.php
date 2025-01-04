@@ -83,19 +83,12 @@ class createDomainDrivenDesignStructure extends Command
 
         }
 
-        if($this->designService->hasStructure($this->attributes['domain'])){
-
-            $this->error("The domain you entered already exists!");
-
-            return false;
-
-        }
-
         $keepPathName = $this->confirm(
             "Do you want to keep the domain name as the folder name? {$this->__($this->attributes['domain'])}",
             true);
 
         $this->attributes['path'] = $keepPathName ? $this->attributes['domain'] : $this->ask("Enter the name for your domain folder");
+        $this->attributes["path"] = sprintf("%s%s", config("lara-driven-config.basePath"), $this->attributes["path"]);
 
         $this->installModel();
         $this->installPolicy();

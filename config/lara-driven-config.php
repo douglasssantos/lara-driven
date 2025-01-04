@@ -11,6 +11,8 @@ return [
      * Framework Load Settings
      */
 
+    "basePath" => "",
+
     // this variable must be filled in with the path where the container file will be created and read.
     "containerFilePath"                => "containers.yaml",
 
