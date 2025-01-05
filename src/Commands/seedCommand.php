@@ -94,7 +94,6 @@ class seedCommand extends Command
     public function runEspecificSeeder($domains, $path)
     {
         $path = strtolower($this->file->name($path));
-        $runSeeder = false;
 
         foreach ($this->file->glob("{$this->designService->getPath()}/*") as $seeder) {
 
