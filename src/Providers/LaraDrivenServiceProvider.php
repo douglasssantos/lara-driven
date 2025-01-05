@@ -2,10 +2,10 @@
 
 namespace Larakeeps\LaraDriven\Providers;
 
-use App\Console\Commands\seedCommand;
 use Illuminate\Support\Facades\Route;
 use Larakeeps\LaraDriven\Commands\createDomainDrivenDesignStructure;
 use Larakeeps\LaraDriven\Commands\publishConfig;
+use Larakeeps\LaraDriven\Commands\seedCommand;
 use Larakeeps\LaraDriven\Services\LaraDrivenService;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
