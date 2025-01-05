@@ -52,7 +52,7 @@ class seedCommand extends Command
             $getDomain = $getDomainInOneOption;
         }
 
-        $getDomain = array_map("strtolower", $getDomain);
+        $getDomain = array_map("strtolower", $getDomain ?? []);
 
         $this->loadFileConfigsDdd();
         $progress = $this->output->createProgressBar(count($getDomain) ?? count($this->structures));
