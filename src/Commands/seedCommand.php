@@ -3,6 +3,7 @@
 namespace Larakeeps\LaraDriven\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Filesystem\Filesystem;
 use Larakeeps\LaraDriven\Services\LaraDrivenService;
@@ -29,6 +30,7 @@ class seedCommand extends Command
     protected string $path = '';
 
     protected Filesystem $file;
+    protected LaraDrivenService $designService;
 
     /**
      * Execute the console command.
@@ -37,6 +39,7 @@ class seedCommand extends Command
     {
 
         $this->file = new Filesystem();
+        $this->designService = new LaraDrivenService();
 
         $this->fileStructureYaml = config("lara-driven-config.containerFilePath", $this->fileStructureYaml);
 
@@ -44,38 +47,37 @@ class seedCommand extends Command
 
         $this->output->title("Starting to populate the seed");
 
-        $getDomain = $this->option("domain");
+        $domains = $this->option("domain");
 
-        $getDomainInOneOption = explode(",", $getDomain[0] ?? "");
+        $getDomainInOneOption = explode(",", $domains[0] ?? "");
 
-        if(count($getDomainInOneOption) > 1 && count($getDomain) == 1){
-            $getDomain = $getDomainInOneOption;
+        if(count($getDomainInOneOption) > 1){
+
+            foreach ($domains as $domain) {
+                if($domain != $domains[0])
+                    $getDomainInOneOption[] = $domain;
+            }
+
+            $domains = $getDomainInOneOption;
+
         }
 
-        if(count($getDomain) > 0)
-            $getDomain = array_map("strtolower", $getDomain ?? []);
+        if(count($domains) > 0)
+            $domains = array_map("strtolower", $domains ?? []);
 
         $this->loadFileConfigsDdd();
-        $progress = $this->output->createProgressBar(count($getDomain) ?? count($this->structures));
+        $progress = $this->output->createProgressBar(count($domains) ?? count($this->structures));
 
         $progress->start();
 
         foreach ($this->structures as $path) {
 
-            $designService = new LaraDrivenService();
+            $this->designService->setPath("{$path}/Database/Seeders");
 
-            if(count($getDomain) > 0
-                && !in_array(strtolower($this->file->name("{$path}/")), $getDomain))
-                continue;
-
-            $designService->setPath("{$path}/Database/Seeders");
-
-            foreach ($this->file->glob("{$designService->getPath()}/*") as $seeder) {
-
-                Artisan::call("db:seed", [
-                    "class" => app("{$designService->getNameSpace()}\\{$this->file->name($seeder)}")::class
-                ]);
-
+            if(count($domains) > 0) {
+                $this->runEspecificSeeder($domains, $path);
+            }else{
+                $this->runAllSeeders();
             }
 
             $progress->advance();
@@ -88,6 +90,48 @@ class seedCommand extends Command
         $this->info("");
 
     }
+
+    public function runEspecificSeeder($domains, $path)
+    {
+        $path = strtolower($this->file->name($path));
+        $runSeeder = false;
+
+        foreach ($this->file->glob("{$this->designService->getPath()}/*") as $seeder) {
+
+            foreach ($domains as $domain) {
+
+                $domain = strtolower($domain);
+
+                $runSeeder = $domain == $path;
+
+                if(str_contains($domain, '@'))
+                    $runSeeder = $domain == strtolower("{$path}@{$this->file->name($seeder)}");
+
+                if($runSeeder) {
+                    Artisan::call("db:seed", [
+                        "class" => app("{$this->designService->getNameSpace()}\\{$this->file->name($seeder)}")::class
+                    ]);
+                }
+            }
+
+
+        }
+    }
+
+
+    public function runAllSeeders()
+    {
+
+        foreach ($this->file->glob("{$this->designService->getPath()}/*") as $seeder) {
+
+            Artisan::call("db:seed", [
+                "class" => app("{$this->designService->getNameSpace()}\\{$this->file->name($seeder)}")::class
+            ]);
+
+        }
+
+    }
+
 
     public function loadYaml()
     {
