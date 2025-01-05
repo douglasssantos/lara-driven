@@ -15,7 +15,7 @@ class seedCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'lara-driven:seed';
+    protected $signature = 'lara-driven:seed {--domain=?}';
 
     /**
      * The console command description.
@@ -44,14 +44,28 @@ class seedCommand extends Command
 
         $this->output->title("Starting to populate the seed");
 
+        $getDomain = $this->option("domain");
+
+        $getDomainInOneOption = explode(",", $getDomain[0]);
+
+        if(count($getDomainInOneOption) > 1 && count($getDomain) == 1){
+            $getDomain = $getDomainInOneOption;
+        }
+
+        $getDomain = array_map("strtolower", $getDomain);
+
         $this->loadFileConfigsDdd();
-        $progress = $this->output->createProgressBar(count($this->structures));
+        $progress = $this->output->createProgressBar(count($getDomain) ?? count($this->structures));
 
         $progress->start();
 
         foreach ($this->structures as $path) {
 
             $designService = new LaraDrivenService();
+
+            if(count($getDomainInOneOption) > 0
+                && !in_array(strtolower($this->file->name("{$path}/")), $getDomain))
+                continue;
 
             $designService->setPath("{$path}/Database/Seeders");
 

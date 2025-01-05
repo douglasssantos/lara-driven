@@ -46,6 +46,27 @@ php artisan vendor:publish --tag=lara-driven-config
 
 ```
 
+To populate the seeds, run the command below
+
+```shell script
+php artisan lara-driven:seed
+
+//OR 
+
+/* If you need to run only one seed, use the command with the --domain= option, 
+ * passing the seed domain and all seeders in the domain will be executed.
+ * 
+ * If you need to run more than one specific seed, do so in the following ways using the --domain= option.
+ *
+ * Option 1: --domain=User,Group,Event
+ * Option 2: --domain=User --domain=Group --domain=Event
+ * 
+ */
+ 
+php artisan lara-driven:seed --domain=?
+
+```
+
 To create a domain with the help of Lara-Driven, run the command below.
 
 ```shell script
