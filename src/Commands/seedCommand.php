@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Larakeeps\LaraDriven\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
