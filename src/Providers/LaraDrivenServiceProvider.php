@@ -2,6 +2,7 @@
 
 namespace Larakeeps\LaraDriven\Providers;
 
+use App\Console\Commands\seedCommand;
 use Illuminate\Support\Facades\Route;
 use Larakeeps\LaraDriven\Commands\createDomainDrivenDesignStructure;
 use Larakeeps\LaraDriven\Commands\publishConfig;
@@ -23,6 +24,11 @@ class LaraDrivenServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+    }
+
+    public function loadYaml()
+    {
+        return Yaml::parseFile(base_path($this->fileStructureYaml));
     }
 
     /**
@@ -60,13 +66,13 @@ class LaraDrivenServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands(createDomainDrivenDesignStructure::class);
             $this->commands(publishConfig::class);
+            $this->commands(seedCommand::class);
         }
     }
 
     public function loadFileConfigsDdd(): void
     {
-        $config = Yaml::parseFile(base_path($this->fileStructureYaml));
-        $this->structures = $config['containers'];
+        $this->structures = $this->loadYaml()['containers'];
     }
     public function createFileYamlIfDoesntExists(): void
     {
@@ -80,7 +86,7 @@ class LaraDrivenServiceProvider extends ServiceProvider
 
     public function checkExistStructureCreated(): bool
     {
-        $yaml = Yaml::parseFile(base_path($this->fileStructureYaml));
+        $yaml = $this->loadYaml();
 
         return is_countable($yaml['containers']) && count($yaml['containers']);
 
